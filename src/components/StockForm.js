@@ -1,59 +1,57 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { createItem } from '../services/api';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { createItem, getById, updateItem } from '../services/api';
 
 const INITIAL_STATE = {
   quantity: '',
   price: '',
-};
-
-const Product = {
-  name: '',
-};
-
-const Client = {
-  name: '',
-}
-
-const STATUS = {
+  product: { name: '' },
+  client: { name: '' },
   active: false,
 }
 
 function StockForm() {
-  const [stockInfo, setStockInfo] = useState(INITIAL_STATE);
-  const [productInfo, setProductInfo] = useState(Product);
-  const [clientInfo, setClientInfo] = useState(Client);
-  const [productStatus, setProductStatus] = useState(STATUS);
-  const [entryRegistered, setEntryRegistered] = useState(false);
+  const location = useLocation();
+  const [itemState, setItemState] = useState(INITIAL_STATE);
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const fetchItem = async () => {
+      const response = await getById(location.state?.id);
+      setItemState(response);
+    };
+
+    if (location.state?.id) {
+      fetchItem();
+    }
+  }, [location.state?.id]);
+
+  const handleState = ({ target: { name, value } }) => {
+    if (name === 'product') {
+      setItemState({ ...itemState, product: { 'name': value } });
+    } else if (name === 'client') {
+      setItemState({ ...itemState, client: { 'name': value } });
+    } else if (name === 'active') {
+      setItemState({ ...itemState, active: !itemState.active });
+    } else {
+      setItemState({ ...itemState, [name]: value });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await createItem({
-      quantity: stockInfo.quantity,
-      price: stockInfo.price,
-      product: productInfo,
-      client: clientInfo,
-      active: productStatus.active
-    });
 
-    return response && setEntryRegistered(true);
-  };
+    try {
+      const response = location.state?.id
+        ? await updateItem(location.state?.id, itemState)
+        : await createItem(itemState);
 
-  const handleStock = ({ target: { name, value } }) => (
-    setStockInfo({ ...stockInfo, [name]: value })
-  );
-
-  const handleProduct = ({ target: { value } }) => (
-    setProductInfo({ ...productInfo, name: value })
-  );
-
-  const handleClient = ({ target: { value } }) => (
-    setClientInfo({ ...clientInfo, name: value })
-  );
-
-  const handleStatus = () => (
-    setProductStatus({ ...productStatus, active: !productStatus.active })
-  );
+      return response && setSubmitted(true);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <form onSubmit={ handleSubmit }>
@@ -61,10 +59,11 @@ function StockForm() {
       <label htmlFor="productName">Inform the product name:</label>
       <input
         type="text"
+        name="product"
         id="productName"
         autoComplete="off"
-        value={ productInfo.name }
-        onChange={ handleProduct }
+        value={ itemState.product.name }
+        onChange={ handleState }
       />
 
       <label htmlFor="productQuantity">Inform the stock quantity:</label>
@@ -73,8 +72,8 @@ function StockForm() {
         name="quantity"
         id="productQuantity"
         autoComplete="off"
-        value={ stockInfo.quantity }
-        onChange={ handleStock }
+        value={ itemState.quantity }
+        onChange={ handleState }
       />
 
       <label htmlFor="productPrice">Inform the product price:</label>
@@ -83,31 +82,36 @@ function StockForm() {
         name="price"
         id="productPrice"
         autoComplete="off"
-        value={ stockInfo.price }
-        onChange={ handleStock }
+        value={ itemState.price }
+        onChange={ handleState }
       />
 
       <label htmlFor="clientName">Inform the client name:</label>
       <input
         type="text"
+        name="client"
         id="clientName"
         autoComplete="off"
-        value={ clientInfo.name }
-        onChange={ handleClient }
+        value={ itemState.client.name }
+        onChange={ handleState }
       />
 
       <label htmlFor="productStatus">It has stock?</label>
       <input
         type="checkbox"
+        name="active"
         id="productStatus"
-        value={ productStatus.active }
-        onChange={ handleStatus }
+        checked={ itemState.active }
+        value={ itemState.active }
+        onChange={ handleState }
       />
 
-      <button type="submit">Create Entry</button>
+      <button type="submit">Save</button>
 
-      <Link to="/">
-        <button disabled={ !entryRegistered }>Home</button>
+      <Link
+        to={ location.state?.id ? "/stock-table" : "/" }
+      >
+        <button disabled={ !submitted }>Go Back</button>
       </Link>
 
     </form>

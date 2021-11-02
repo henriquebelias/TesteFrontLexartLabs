@@ -1,6 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
-const URL = 'https://crudcrud.com/api/9d9d122b51c447e2b1aea0543b91339e';
+const endpointId = 'd8534d2674774057a7a655d9d07004d7'
+
+const URL = `https://crudcrud.com/api/${endpointId}`;
 
 export const getAll = async () => {
   const { data } = await axios.get(`${URL}/stock`);

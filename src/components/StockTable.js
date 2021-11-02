@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { deleteItem, getAll } from '../services/api';
 
 function StockTable() {
@@ -38,7 +38,11 @@ function StockTable() {
               <td>{ quantity }</td>
               <td>{ name }</td>
               <td>$ { price }</td>
-              <td><Link to={`/stock-item/${_id}`}><button>Select</button></Link></td>
+              <td>
+                <Link to={ { pathname: '/register', state: { id: _id } } }>
+                  <button>Select</button>
+                </Link>
+              </td>
               <td><button onClick={ () => deleteEntry(_id) }>Delete</button></td>
             </tr>
           )) }
