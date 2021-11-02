@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { deleteItem, getAll } from '../services/api';
+import { StockTableContainer } from './StockTable.sc';
 
 function StockTable() {
   const [stockItems, setStockItems] = useState([]);
@@ -20,15 +21,17 @@ function StockTable() {
   };
 
   return (
-    <>
+    <StockTableContainer>
       <h1>ABM Stock</h1>
       <table>
         <thead>
           <tr>
-            <td>_Id</td>
-            <td>Quantity</td>
-            <td>Product Name</td>
-            <td>Price</td>
+            <th>_Id</th>
+            <th>Quantity</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Select</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -48,7 +51,8 @@ function StockTable() {
           )) }
         </tbody>
       </table>
-    </>
+      <Link to="/"><button>Home</button></Link>
+    </StockTableContainer>
   )
 }
 

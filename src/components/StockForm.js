@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { createItem, getById, updateItem } from '../services/api';
+import { FormContainer } from './StockForm.sc';
 
 const INITIAL_STATE = {
   quantity: '',
@@ -54,67 +55,71 @@ function StockForm() {
   }
 
   return (
-    <form onSubmit={ handleSubmit }>
+    <FormContainer>
+      <form onSubmit={ handleSubmit }>
 
-      <label htmlFor="productName">Inform the product name:</label>
-      <input
-        type="text"
-        name="product"
-        id="productName"
-        autoComplete="off"
-        value={ itemState.product.name }
-        onChange={ handleState }
-      />
+        <label htmlFor="productName">Inform the product name:</label>
+        <input
+          type="text"
+          name="product"
+          id="productName"
+          autoComplete="off"
+          value={ itemState.product.name }
+          onChange={ handleState }
+        />
 
-      <label htmlFor="productQuantity">Inform the stock quantity:</label>
-      <input
-        type="text"
-        name="quantity"
-        id="productQuantity"
-        autoComplete="off"
-        value={ itemState.quantity }
-        onChange={ handleState }
-      />
+        <label htmlFor="productQuantity">Inform the stock quantity:</label>
+        <input
+          type="text"
+          name="quantity"
+          id="productQuantity"
+          autoComplete="off"
+          value={ itemState.quantity }
+          onChange={ handleState }
+        />
 
-      <label htmlFor="productPrice">Inform the product price:</label>
-      <input
-        type="text"
-        name="price"
-        id="productPrice"
-        autoComplete="off"
-        value={ itemState.price }
-        onChange={ handleState }
-      />
+        <label htmlFor="productPrice">Inform the product price:</label>
+        <input
+          type="text"
+          name="price"
+          id="productPrice"
+          autoComplete="off"
+          value={ itemState.price }
+          onChange={ handleState }
+        />
 
-      <label htmlFor="clientName">Inform the client name:</label>
-      <input
-        type="text"
-        name="client"
-        id="clientName"
-        autoComplete="off"
-        value={ itemState.client.name }
-        onChange={ handleState }
-      />
+        <label htmlFor="clientName">Inform the client name:</label>
+        <input
+          type="text"
+          name="client"
+          id="clientName"
+          autoComplete="off"
+          value={ itemState.client.name }
+          onChange={ handleState }
+        />
 
-      <label htmlFor="productStatus">It has stock?</label>
-      <input
-        type="checkbox"
-        name="active"
-        id="productStatus"
-        checked={ itemState.active }
-        value={ itemState.active }
-        onChange={ handleState }
-      />
+        <div>
+          <label htmlFor="productStatus">It has stock?</label>
+          <input
+            type="checkbox"
+            name="active"
+            id="productStatus"
+            checked={ itemState.active }
+            value={ itemState.active }
+            onChange={ handleState }
+          />
+        </div>
 
-      <button type="submit">Save</button>
+        <button type="submit">Save</button>
 
-      <Link
-        to={ location.state?.id ? "/stock-table" : "/" }
-      >
-        <button disabled={ !submitted }>Go Back</button>
-      </Link>
+        <Link
+          to={ location.state?.id ? "/stock-table" : "/" }
+        >
+          <button disabled={ !submitted }>Go Back</button>
+        </Link>
 
-    </form>
+      </form>
+    </FormContainer>
   )
 }
 
