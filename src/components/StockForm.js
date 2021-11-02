@@ -58,7 +58,7 @@ function StockForm() {
   return (
     <form onSubmit={ handleSubmit }>
 
-      <label htmlFor="productName">Informe o nome do produto:</label>
+      <label htmlFor="productName">Inform the product name:</label>
       <input
         type="text"
         id="productName"
@@ -67,7 +67,7 @@ function StockForm() {
         onChange={ handleProduct }
       />
 
-      <label htmlFor="productQuantity">Informe a quantidade do produto:</label>
+      <label htmlFor="productQuantity">Inform the stock quantity:</label>
       <input
         type="text"
         name="quantity"
@@ -77,7 +77,7 @@ function StockForm() {
         onChange={ handleStock }
       />
 
-      <label htmlFor="productPrice">Informe o preço do produto:</label>
+      <label htmlFor="productPrice">Inform the product price:</label>
       <input
         type="text"
         name="price"
@@ -87,7 +87,7 @@ function StockForm() {
         onChange={ handleStock }
       />
 
-      <label htmlFor="clientName">Informe o nome do cliente:</label>
+      <label htmlFor="clientName">Inform the client name:</label>
       <input
         type="text"
         id="clientName"
@@ -96,7 +96,7 @@ function StockForm() {
         onChange={ handleClient }
       />
 
-      <label htmlFor="productStatus">Tem o produto no estoque?</label>
+      <label htmlFor="productStatus">It has stock?</label>
       <input
         type="checkbox"
         id="productStatus"
@@ -104,10 +104,10 @@ function StockForm() {
         onChange={ handleStatus }
       />
 
-      <button type="submit">Criar Entrada</button>
+      <button type="submit">Create Entry</button>
 
       <Link to="/">
-        <button disabled={ !entryRegistered }>Voltar pra página inicial</button>
+        <button disabled={ !entryRegistered }>Home</button>
       </Link>
 
     </form>

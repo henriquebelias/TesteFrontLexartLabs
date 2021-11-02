@@ -7,11 +7,11 @@ function LandingPage() {
       <h1>ABM Stock</h1>
 
       <Link to="/register">
-        <button>Cadastre um novo produto</button>
+        <button>Register a new stock item</button>
       </Link>
 
       <Link to="/stock-table">
-        <button>Veja os produtos cadastrados</button>
+        <button>List all the stock items</button>
       </Link>
     </>
   );
